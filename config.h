@@ -11,12 +11,12 @@
 #define MQTT_USERNAME "admin"
 #define MQTT_PASSWORD  "1944"
 /*
-#define MQTT_ID   "ESP32garden"
-#define TOPIC_CONTROL "kelvinweb/garden/lights/control"
-#define TOPIC_STATUS  "kelvinweb/garden/lights/status"
-#define TOPIC_STATUS_CNT  "kelvinweb/garden/lights/status/count"
-#define TOPIC_STATUS_CNT2  "kelvinweb/garden/lights/status/count2"
-#define TOPIC_STATUS_VER  "kelvinweb/garden/lights/status/ver"
+  #define MQTT_ID   "ESP32garden"
+  #define TOPIC_CONTROL "kelvinweb/garden/lights/control"
+  #define TOPIC_STATUS  "kelvinweb/garden/lights/status"
+  #define TOPIC_STATUS_CNT  "kelvinweb/garden/lights/status/count"
+  #define TOPIC_STATUS_CNT2  "kelvinweb/garden/lights/status/count2"
+  #define TOPIC_STATUS_VER  "kelvinweb/garden/lights/status/ver"
 */
 
 #define MQTT_ID   "ESP32boiler"
