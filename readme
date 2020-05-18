@@ -1,0 +1,41 @@
+Create a repository for that directory...
+
+  git init
+
+A directory named .git is added to the MotorThing directory.  That directory is the Git repository.
+
+
+Add all the working files to the index (note the dot at the end).
+
+  git add .
+
+The index can be checked with the status command...
+
+  git status
+
+
+
+When changes should be "saved" (commit in Git nomenclature) simply...
+
+  git commit
+
+
+enter commit comment
+
+
+Or, the comment can be included in the command...
+
+  git commit -m "Initial commit."
+
+
+
+or
+
+ git commit -a -m "Start adding serial debugging."
+
+git diff
+
+end
+ git commit -a -m "Bad news.  Dead end.  And a terrible mess."
+
+git revert HEAD --no-edit
