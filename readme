@@ -39,3 +39,17 @@ end
  git commit -a -m "Bad news.  Dead end.  And a terrible mess."
 
 git revert HEAD --no-edit
+
+
+
+========================
+github
+
+git remote add origin https://github.com/hughrobertson/esp32-boiler.git
+
+git push -u origin master
+
+hughrobertson     n----16
+
+
+

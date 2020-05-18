@@ -2,7 +2,7 @@
   esp32 gpio control
 
   ESP32 NodeMCU Developmentboard
-  
+
 *********/
 #include "config.h"
 #include <WiFi.h>
@@ -28,13 +28,13 @@ char* ssid = WIFI_SSID;
 char MQTTid[20];
 const char* password = PASSWORD;
 const char* mqtt_server = MQTT_IP ;
-int error_RCerroorCount =0;
+int error_RCerroorCount = 0;
 int status[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 char statusStr[11];
 //adc
 
-int cal[10]    = {-8,-8,-8,-8};
-int adcpin[10] = {34,35,32,33};
+int cal[10]    = { -8, -8, -8, -8};
+int adcpin[10] = {34, 35, 32, 33};
 
 
 int temperature[TEMP_ENTRIES];
@@ -65,13 +65,13 @@ void setup() {
   char buffer [20];
   Serial.begin(115200);
   Serial.println(version);
-  i=random(1000);
+  i = random(1000);
 
-  itoa (i,buffer,10);
-  strcpy(MQTTid, MQTT_ID); 
+  itoa (i, buffer, 10);
+  strcpy(MQTTid, MQTT_ID);
   strcat(MQTTid, buffer);
   Serial.println(MQTTid);
-  
+
 
   SerialBT.begin(BT_ID); //Bluetooth device name
   Serial.println("The device started, now you can pair it with bluetooth!");
@@ -96,18 +96,18 @@ void setup() {
 //========================================
 
 void setup_wifi() {
-  int setCount=0;
-  int error =0;
+  int setCount = 0;
+  int error = 0;
   delay(10);
   // We start by connecting to a WiFi network
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
-   WiFi.mode(WIFI_STA);
-   WiFi.begin(ssid, password);  
-  
-  
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+
+
   ArduinoOTA.setHostname("TemplateSketch1");
   setupOTA();
   while (WiFi.status() != WL_CONNECTED) {
@@ -115,37 +115,37 @@ void setup_wifi() {
     Serial.print(".");
     SerialBT.print(".");
     setCount++;
-    if(setCount>20){
-      error =-1;
+    if (setCount > 20) {
+      error = -1;
       break;
-      }
+    }
   }
-  if(error==0)
+  if (error == 0)
   {
     Serial.println("");
     Serial.println("WiFi connected");
     Serial.println("ESP32 IP address: ");
     Serial.println(WiFi.localIP());
   }
-  else{
+  else {
     SerialBT.println("WiFi not connected");
     delay(5000);
-    }
+  }
 }
 
 //========================================
 
 /*
-//========================================
-double ReadVoltage(byte pin){
+  //========================================
+  double ReadVoltage(byte pin){
   double reading = analogRead(pin); // Reference voltage is 3v3 so maximum reading is 3v3 = 4095 in range 0 to 4095
   if(reading < 1 || reading > 4095) return 0;
   // return -0.000000000009824 * pow(reading,3) + 0.000000016557283 * pow(reading,2) + 0.000854596860691 * reading + 0.065440348345433;
   return -0.000000000000016 * pow(reading,4) + 0.000000000118171 * pow(reading,3)- 0.000000301211691 * pow(reading,2)+ 0.001109019271794 * reading + 0.034143524634089;
-} // Added an improved polynomial, use either, comment out as required
+  } // Added an improved polynomial, use either, comment out as required
 
 
-//========================================
+  //========================================
 */
 
 //========================================
@@ -229,8 +229,8 @@ void reconnect() {
       //Serial.print(client.state());
       //SerialBT.print(client.state());
       // Wait 5 seconds before retrying
-      
-      if(error_RCerroorCount++>100){
+
+      if (error_RCerroorCount++ > 100) {
         SerialBT.print("mqtt id :");
         SerialBT.println(MQTTid);
         //Serial.print(" failed, rc=");
@@ -252,41 +252,41 @@ void reconnect() {
 
 //========================================
 int readTemp(void) {
-char data[100];
-char buffer [20]; 
+  char data[100];
+  char buffer [20];
   //Serial.println("========================");
   //Serial.println(ReadVoltage(33),3);
   SerialBT.println("analogRead ");
-  
+
   SerialBT.println(analogRead(adcpin[0]));
   SerialBT.println(analogRead(adcpin[1]));
   SerialBT.println(analogRead(adcpin[2]));
-  int temp =0;
-  strcpy(data,"{");
-  for(int count=0;count < TEMP_ENTRIES; count++){
-     //temp=((analogRead(adcpin[count])-400)/10)+cal[count]; // convert to temp
-     temp=  analogRead(adcpin[count]);
-     //Serial.println(temp);
+  int temp = 0;
+  strcpy(data, "{");
+  for (int count = 0; count < TEMP_ENTRIES; count++) {
+    //temp=((analogRead(adcpin[count])-400)/10)+cal[count]; // convert to temp
+    temp =  analogRead(adcpin[count]);
+    //Serial.println(temp);
 
-     temperature[count]=temp;
+    temperature[count] = temp;
 
-     strcat(data,"\"temp");       
-     itoa (count,buffer,10);
-     //strcpy(data,buffer); 
-     strcat(data, buffer);
-     strcat(data, "\":");
-     itoa (temp,buffer,10);
-     strcat(data,buffer);
-     if(count<TEMP_ENTRIES-1)strcat(data, ",");
-     
-      }
-      strcat(data, "}");
-      
-      //Serial.println(data);
-      SerialBT.print(data);
-      client.publish(TOPIC_TEMPERATURES, data);
+    strcat(data, "\"temp");
+    itoa (count, buffer, 10);
+    //strcpy(data,buffer);
+    strcat(data, buffer);
+    strcat(data, "\":");
+    itoa (temp, buffer, 10);
+    strcat(data, buffer);
+    if (count < TEMP_ENTRIES - 1)strcat(data, ",");
 
-  //dvm reads 714 adc reads 644 temp is 22degC 22 deg should be 400 + 220 = 620mv. 
+  }
+  strcat(data, "}");
+
+  //Serial.println(data);
+  SerialBT.print(data);
+  client.publish(TOPIC_TEMPERATURES, data);
+
+  //dvm reads 714 adc reads 644 temp is 22degC 22 deg should be 400 + 220 = 620mv.
   //is dvm wrong?
   //Serial.println("========================");
 }
@@ -343,14 +343,14 @@ void loop() {
   ArduinoOTA.handle();
   //TelnetStream.println(micros()-entry);
   //TelnetStream.println("Loop");
-  
+
   delay(1000);
   //==============================
 
   long now = millis();
   if (now - lastMsg > LOOP_TIME) {
     lastMsg = now;
-//========================================
+    //========================================
     readTemp();
     int count = readGPIOstatus();
     char tempString[8];
